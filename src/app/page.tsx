@@ -2,8 +2,7 @@
 
 import { useRef } from 'react';
 import MenuPage from './menu/page';
-import MenuSection from '@/components/PizzaCard';
-import PizzaCard from '@/components/PizzaCard';
+
 
 export default function Home() {
     const menuRef = useRef<HTMLDivElement>(null);
