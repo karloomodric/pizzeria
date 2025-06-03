@@ -48,7 +48,12 @@ export default function CartClient() {
           </div>
 
           <h2 className="text-2xl font-semibold mb-4">Checkout</h2>
-          <StripeWrapper>
+          <StripeWrapper
+          total={total}
+          name='Karlo Modric'
+          address='Flat 4, 22 Charnwood Street'
+          postcode='DE1 2GU'
+          >
             <CheckoutForm total={total} />
           </StripeWrapper>
         </>

@@ -2,13 +2,44 @@
 
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { useEffect, useState } from 'react';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-export default function StripeWrapper({ children }: { children: React.ReactNode }) {
-    return (
-        <Elements stripe={stripePromise}>
-            {children}
-        </Elements>
-    );
+export default function StripeWrapper({
+  children,
+  total,
+  name,
+  address,
+  postcode,
+}: {
+  children: React.ReactNode;
+  total: number;
+  name: string;
+  address: string;
+  postcode: string;
+}) {
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect(() => {
+    const fetchClientSecret = async () => {
+      const res = await fetch('/api/create-payment-intent', {
+        method: 'POST',
+        body: JSON.stringify({ name, address, postcode, total }),
+      });
+
+      const data = await res.json();
+      setClientSecret(data.clientSecret);
+    };
+
+    fetchClientSecret();
+  }, [name, address, postcode, total]);
+
+  if (!clientSecret) return <p>Loading payment form...</p>;
+
+  return (
+    <Elements stripe={stripePromise} options={{ clientSecret }}>
+      {children}
+    </Elements>
+  );
 }
