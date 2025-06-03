@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useStripe, useElements, PaymentElement, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
+import type { PaymentRequest } from '@stripe/stripe-js';
 
 export default function CheckoutForm({ total }: { total: number }) {
   const stripe = useStripe();
   const elements = useElements();
-  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(null);
   const [canUsePaymentRequest, setCanUsePaymentRequest] = useState(false);
 
   useEffect(() => {
