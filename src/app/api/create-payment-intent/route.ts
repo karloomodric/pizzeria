@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(total * 100), 
       currency: 'gbp',
-      payment_method_types: ['card', 'apple_pay', 'google_pay'],
+      payment_method_types: ['card'],
       metadata: {
         name,
         address,
