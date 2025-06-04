@@ -6,19 +6,22 @@ import { useEffect, useState } from 'react';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+type StripeWrapperProps = {
+  children: React.ReactNode;
+  total: number;
+  name: string;
+  address: string;
+  postcode: string;
+};
+
 export default function StripeWrapper({
   children,
   total,
   name,
   address,
   postcode,
-}: {
-  children: React.ReactNode;
-  total: number;
-  name: string;
-  address: string;
-  postcode: string;
-}) {
+}: StripeWrapperProps) {
+
   const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
@@ -43,3 +46,4 @@ export default function StripeWrapper({
     </Elements>
   );
 }
+
